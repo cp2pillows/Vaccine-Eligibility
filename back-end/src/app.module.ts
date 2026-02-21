@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { VacccineController } from './vaccine.controller';
-import { VacccineService } from './vaccine.service';
+import { VacccineController } from './vaccine/vaccine.controller';
+import { VacccineService } from './vaccine/vaccine.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 
