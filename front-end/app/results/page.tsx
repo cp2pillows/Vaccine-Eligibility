@@ -1,11 +1,15 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Results() {
   const [results, setResults] = useState<string[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    getResults();
+  }, []);
 
   async function getResults()
   {
@@ -50,8 +54,6 @@ export default function Home() {
         console.log(error);
         }
   }
-
-  getResults();
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-zinc-50 font-sans">
