@@ -78,6 +78,4 @@ export class VaccineCollection{
 
         return vaccines;
     }
-
-
 }

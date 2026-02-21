@@ -9,7 +9,7 @@ export class VacccineService {
 
     vaccines: VaccineCollection = new VaccineCollection()
     constructor(){
-        this.vaccines.AddVacine(new DTaP_IPV_Hib().Build())
+        this.reset();
     }
 
     getQuestions(): string[]{
@@ -29,4 +29,7 @@ export class VacccineService {
         return this.vaccines.Validate();
     }
     
+    reset(): void{
+        this.vaccines.AddVacine(new DTaP_IPV_Hib().Build())
+    }
 }

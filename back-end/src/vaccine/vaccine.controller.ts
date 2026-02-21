@@ -28,4 +28,10 @@ export class VacccineController {
     {
         return this.vaccineService.getVaccineStatus();
     }
+
+    @Get("reset")
+    GetReset()
+    {
+        return this.vaccineService.reset();
+    }
 }
