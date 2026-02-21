@@ -30,7 +30,7 @@ export class VaccineCollection{
             if(retval === ValidateReturn.FAIL){
                 failed.push(vaccineUnanswered);
             }
-            if(retval === ValidateReturn.FAIL){
+            if(retval === ValidateReturn.SUCCESS){
                 correct.push(vaccineUnanswered);
             }
         });
@@ -77,5 +77,11 @@ export class VaccineCollection{
         });
 
         return vaccines;
+    }
+
+    Clear(): void{
+        this.vaccinesNotEligible = [];
+        this.vaccinesEligible = [];
+        this.vaccinesNeedMoreInfo = [];
     }
 }

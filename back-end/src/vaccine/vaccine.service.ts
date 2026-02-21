@@ -30,7 +30,7 @@ export class VacccineService {
     }
     
     reset(): void{
-        this.vaccines = new VaccineCollection();
-        this.vaccines.AddVacine(new DTaP_IPV_Hib().Build())
+        this.vaccines.Clear();
+        this.vaccines.AddVacine(new DTaP_IPV_Hib().Build());
     }
 }
