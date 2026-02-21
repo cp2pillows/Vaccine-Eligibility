@@ -12,30 +12,30 @@ export default function Question() {
 
   async function AnswerQuestion(stringID:string, answer:boolean)
   {
-      let json = {'stringID': stringID, 'answer':answer}
+    const json = {'stringID': stringID, 'answer':answer}
 
-      try
+    try
+    {
+      const response = await fetch("http://localhost:3000/vaccine", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(json),
+        credentials: 'include',
+      });
+
+      if (!response.ok)
       {
-          const response = await fetch("http://localhost:3000/vaccine", {
-              method: "POST",
-              headers: {
-              "Content-Type": "application/json",
-              },
-              body: JSON.stringify(json),
-              credentials: 'include',
-          });
-
-          if (!response.ok)
-          {
-              throw new Error("Failed to submit");
-          }
-
-          setInc(inc => inc + 1);
+        throw new Error("Failed to submit");
       }
-      catch(error) 
-      {
+
+      setInc(inc => inc + 1);
+    }
+    catch(error) 
+    {
       console.log(error);
-      }
+    }
   }
 
   useEffect(() => {

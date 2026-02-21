@@ -14,45 +14,45 @@ export default function Results() {
   async function getResults()
   {
     try
-        {
-          const response = await fetch("http://localhost:3000/vaccine/results", {
-              method: "Get"
-          });
-  
-          if (!response.ok)
-          {
-              throw new Error("Failed to submit");
-          }
-  
-          const result: string[] = await response.json();
-          setResults(result);
-        }
-        catch(error) 
-        {
-        console.log(error);
-        }
+    {
+      const response = await fetch("http://localhost:3000/vaccine/results", {
+          method: "Get"
+      });
+
+      if (!response.ok)
+      {
+          throw new Error("Failed to submit");
+      }
+
+      const result: string[] = await response.json();
+      setResults(result);
+    }
+    catch(error) 
+    {
+      console.log(error);
+    }
   }
 
   async function reset()
   {
     try
-        {
-          const response = await fetch("http://localhost:3000/vaccine/reset", {
-              method: "Get"
-          });
-  
-          if (!response.ok)
-          {
-              throw new Error("Failed to submit");
-          }
+    {
+      const response = await fetch("http://localhost:3000/vaccine/reset", {
+          method: "Get"
+      });
 
-          setResults([]);
-          router.push("/");
-        }
-        catch(error) 
-        {
-        console.log(error);
-        }
+      if (!response.ok)
+      {
+          throw new Error("Failed to submit");
+      }
+
+      setResults([]);
+      router.push("/");
+    }
+    catch(error) 
+    {
+      console.log(error);
+    }
   }
 
   return (
