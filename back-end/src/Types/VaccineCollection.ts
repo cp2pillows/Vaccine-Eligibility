@@ -4,9 +4,9 @@ import { Vaccine } from "./Vaccine";
 import { ValidateReturn } from "./ValidateReturn";
 
 export class VaccineCollection{
-    vaccinesNotEligible: Vaccine[]
-    vaccinesEligible: Vaccine[]
-    vaccinesNeedMoreInfo: Vaccine[]
+    vaccinesNotEligible: Vaccine[] = [];
+    vaccinesEligible: Vaccine[] = [];
+    vaccinesNeedMoreInfo: Vaccine[] = [];
 
 
     AddVacine(vaccine: Vaccine): this{
