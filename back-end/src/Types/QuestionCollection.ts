@@ -8,4 +8,5 @@ export interface QuestionCollection{
     AddQuestionCollection: (questionCollection: QuestionCollection) => this
     UnsureQuestion:(questionID: string) => void
     AnswerQuestion: (questionID: string, answer:Answer) => void
+    GetUnansweredQuestions: () => Question[]
 }

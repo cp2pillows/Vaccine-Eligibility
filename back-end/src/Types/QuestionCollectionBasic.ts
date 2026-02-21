@@ -101,4 +101,14 @@ export class QuestionCollectionBasic implements QuestionCollection{
             this.unansweredQuestions = this.unansweredQuestions.filter(question => question != unsureQuestion);
         });
     }
+
+    GetUnansweredQuestions(): Question[]{
+        let unanswered = [];
+        unanswered.push(...this.unansweredQuestions);
+
+        this.questionCollections.forEach(questionCollections => {
+            unanswered.push(...questionCollections.GetUnansweredQuestions())
+        });
+        return unanswered;
+    }
 }

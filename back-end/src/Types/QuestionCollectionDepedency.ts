@@ -36,4 +36,14 @@ export class questionCollectionDependency implements QuestionCollection{
         this.mainQuestion.AnswerQuestion(questionID, answer);
         this.dependency.AnswerQuestion(questionID, answer);
     }
+
+    GetUnansweredQuestions(): Question[]{
+        if(this.mainQuestion.Validate() === ValidateReturn.NOT_ENOUGH_INFO){
+            return this.mainQuestion.GetUnansweredQuestions();
+        }
+        else
+        {
+            return this.dependency.GetUnansweredQuestions();
+        }
+    }
 }

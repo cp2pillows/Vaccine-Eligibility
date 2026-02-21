@@ -49,4 +49,12 @@ export class QuestionCollectionGroup implements QuestionCollection{
         });
     };
 
+    GetUnansweredQuestions(): Question[]{
+        let unanswered = [];
+        unanswered.push(...this.group.GetUnansweredQuestions());
+        this.groupCollections.forEach(questionCollection=> {
+            unanswered.push(...questionCollection.GetUnansweredQuestions());
+        });
+        return unanswered;
+    }
 }
