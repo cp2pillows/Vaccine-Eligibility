@@ -6,6 +6,6 @@ export interface QuestionCollection{
     Validate:() => ValidateReturn
     AddQuestion:(question: Question) => void
     AddQuestionCollection: (questionCollection: QuestionCollection) => void
-    UnsureQuestion:(questionID: string, answer:Answer) => void
+    UnsureQuestion:(questionID: string) => void
     AnswerQuestion: (questionID: string, answer:Answer) => void
 }
