@@ -1,4 +1,5 @@
 import { Answer } from "./Answer";
+import { Question } from "./Question";
 import { Vaccine } from "./Vaccine";
 import { ValidateReturn } from "./ValidateReturn";
 
@@ -53,6 +54,14 @@ export class VaccineCollection{
         this.vaccinesNeedMoreInfo.forEach(vaccineUnanswered => {
             vaccineUnanswered.UnsureQuestion(questionID);
         });
+    }
+
+    GetQuestions(): Question[]{
+        let questions:Question[] = [];
+        this.vaccinesNeedMoreInfo.forEach(vaccine => {
+            questions.push(...vaccine.getQuestions())
+        });
+        return questions;
     }
 
     Validate(): string[]{

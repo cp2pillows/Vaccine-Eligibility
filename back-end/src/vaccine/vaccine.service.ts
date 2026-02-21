@@ -1,20 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { CreateVaccineAnswer } from "./create-vaccine-answer.dto";
-import { Vaccine } from "src/Types/Vaccine";
 import { DTaP_IPV_Hib } from "src/VaccineDirectors/DTaP_IPV_Hib";
 import { AnswerBool } from "src/Types/AnswerBool";
+import { VaccineCollection } from "src/Types/VaccineCollection";
 
 @Injectable()
 export class VacccineService {
 
-    vaccine: Vaccine
+    vaccines: VaccineCollection = new VaccineCollection()
     constructor(){
-        this.vaccine = new DTaP_IPV_Hib().Build()
+        this.vaccines.AddVacine(new DTaP_IPV_Hib().Build())
     }
 
     getQuestions(): string[]{
         let questionStrings:string[] = []
-        let questions = this.vaccine.getQuestions();
+        let questions = this.vaccines.GetQuestions();
         questions.forEach(question => {
             questionStrings.push(question.GetStringID());
         })
@@ -22,8 +22,11 @@ export class VacccineService {
     }
 
     answerQuestion(dto: CreateVaccineAnswer){
-        this.vaccine.AnswerQuestion(dto.stringID, new AnswerBool(dto.answer));
+        this.vaccines.AnswerQuestion(dto.stringID, new AnswerBool(dto.answer));
     }
     
+    getVaccineStatus(): string[]{
+        return this.vaccines.Validate();
+    }
     
 }
