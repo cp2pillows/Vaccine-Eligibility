@@ -3,7 +3,7 @@ import { type Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './create-user.dto';
 
-@Controller('user')
+@Controller()
 export class UserController
 {
   private userService: UserService;

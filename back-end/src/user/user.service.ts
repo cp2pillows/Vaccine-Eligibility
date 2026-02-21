@@ -10,10 +10,11 @@ export class UserService
 
   addUser(dto: CreateUserDto): number
   {
+    let dtoDate = new Date(dto.dateOfBirth);
     const user = <User>{
       id: UserService.idCounter++,
-      dateOfBirth: dto.dateOfBirth,
-      age: (new Date()).getFullYear() - dto.dateOfBirth.getFullYear(),
+      dateOfBirth: dtoDate,
+      age: (new Date()).getFullYear() - dtoDate.getFullYear(),
     };
     this.users.push(user);
 
