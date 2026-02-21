@@ -19,6 +19,6 @@ export class DTaP_IPV_Hib implements VaccineDirector{
                     .AddQuestion(new QuestionBasic(Have_Hypo_Or_asplenic, new AnswerBool(true)))
                 )
             )
-        return new Vaccine(questionCollection);
+        return new Vaccine(questionCollection, "DTaP_IPV_Hib");
     }
 }
