@@ -8,7 +8,7 @@ export class UserService
   private users: User[] = [];
   private static idCounter: number = 0;
 
-  addUser(dto: CreateUserDto)
+  addUser(dto: CreateUserDto): number
   {
     const user = <User>{
       id: UserService.idCounter++,
@@ -16,5 +16,7 @@ export class UserService
       ethnicity: dto.ethnicity,
     };
     this.users.push(user);
+
+    return user.id;
   }
 }

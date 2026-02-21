@@ -19,7 +19,14 @@ export class UserController
     @Body() createUserDto: CreateUserDto,
   )
   {
-    this.userService.addUser(createUserDto);
-    response.status(HttpStatus.CREATED).send();
+    const userId: number = this.userService.addUser(createUserDto);
+    response.status(HttpStatus.CREATED);
+    response.cookie('userId', userId, {
+      httpOnly: true,
+      secure: true,
+      sameSite: false,
+      maxAge: 86400 * 1000,
+    });
+    response.send();
   }
 }
