@@ -4,7 +4,7 @@
 //GOOD_ENOUGH some questions are i dont know
 export enum ValidateReturn{
     SUCCESS, 
-    FAIL, 
-    NOT_ENOUGH_INFO, 
     GOOD_ENOUGH,
+    NOT_ENOUGH_INFO, 
+    FAIL, 
 }

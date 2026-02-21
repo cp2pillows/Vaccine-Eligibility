@@ -14,24 +14,7 @@ export class questionCollectionDependency implements QuestionCollection{
 
     Validate(): ValidateReturn{
         //check if main question fail
-        if(this.mainQuestion.Validate() == ValidateReturn.FAIL || this.dependency.Validate() == ValidateReturn.FAIL){
-            return ValidateReturn.FAIL
-        }
-
-        //check if either have not enough info
-        else if(this.mainQuestion.Validate() == ValidateReturn.NOT_ENOUGH_INFO || this.dependency.Validate() == ValidateReturn.NOT_ENOUGH_INFO){
-            return ValidateReturn.NOT_ENOUGH_INFO
-        }
-        
-        //check if either are good enough 
-        else if(this.mainQuestion.Validate() == ValidateReturn.GOOD_ENOUGH || this.dependency.Validate() == ValidateReturn.GOOD_ENOUGH){
-            return ValidateReturn.GOOD_ENOUGH
-        }
-
-        else
-        {
-            return ValidateReturn.SUCCESS
-        }
+        return Math.max(this.mainQuestion.Validate(), this.dependency.Validate());
     }
     
     AddQuestion (question: Question){
