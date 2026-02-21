@@ -4,7 +4,7 @@ import { QuestionCollectionBasic } from "./QuestionCollectionBasic";
 import { QuestionReturn } from "./QuestionReturn";
 import { ValidateReturn } from "./ValidateReturn";
 
-describe('QuestionCollection', () =>{
+describe('QuestionCollectionBasic', () =>{
     let stringID: string; 
     let questionCollection: QuestionCollectionBasic;
     
@@ -32,7 +32,7 @@ describe('QuestionCollection', () =>{
         })
     })
 
-    describe('Validate', () => {
+    describe('Validate Simple', () => {
         it('Should return SUCCESS if there is no questions', async () => {
             expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
         })
@@ -61,11 +61,101 @@ describe('QuestionCollection', () =>{
 
         it('Should return GOOD_ENOUGH if there is a question that is unsure', async () => {
             questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
-            
+
             expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
             questionCollection.UnsureQuestion(stringID);
             expect(questionCollection.Validate()).toBe(ValidateReturn.GOOD_ENOUGH);
         })        
+    })
+
+    describe('Validate Dependency', () => {
+        it('It should FAIL if first collection is NOT_ENOUGH_INFO but the deeper one failed', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.FAIL);
+            
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.AddQuestionCollection(questionCollectionDeep)
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+
+        it('It should FAIL if first collection is SUCCESS but the deeper one failed', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(true));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.FAIL);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+            questionCollection.AddQuestionCollection(questionCollectionDeep)
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+
+        it('It should FAIL if first collection is GOOD_ENOUGH but the deeper one failed', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.UnsureQuestion(stringID);
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.FAIL);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.GOOD_ENOUGH);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+
+        it('It should return NOT_ENOUGH_INFO if first collection is SUCCESS but the deeper one is NOT_ENOUGH_INFO', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(true));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.NOT_ENOUGH_INFO);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+
+        it('It should return GOOD_ENOUGH if first collection is SUCCESS but the deeper one is GOOD_ENOUGH', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(true));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.GOOD_ENOUGH);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.GOOD_ENOUGH);
+        })
+        
+        it('It should return FAIL if first collection is FAIL but the deeper one is SUCCESS', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(false));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.SUCCESS);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+
+        it('It should return FAIL if first collection is FAIL but the deeper one is GOOD_ENOUGH', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(false));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.GOOD_ENOUGH);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+        
+        it('It should return FAIL if first collection is FAIL but the deeper one is NOT_ENOUGH_INFO', async () => {
+            let questionCollectionDeep = new QuestionCollectionBasic()
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            questionCollection.AnswerQuestion(stringID, new AnswerBool(false));
+            jest.spyOn(questionCollectionDeep, 'Validate').mockImplementation(() => ValidateReturn.NOT_ENOUGH_INFO);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+            questionCollection.AddQuestionCollection(questionCollectionDeep);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+        
     })
 
     describe('AnswerQuestion', () => {

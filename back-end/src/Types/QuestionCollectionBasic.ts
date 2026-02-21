@@ -45,6 +45,13 @@ export class QuestionCollectionBasic implements QuestionCollection{
     }
     
     Validate(): ValidateReturn{
+        if(this.questionCollections.length === 0){
+            return this.ValidateSelf();
+        }
+        return Math.max(this.ValidateSelf(), this.ValidateNext());
+    }
+
+    ValidateSelf(): ValidateReturn{
         if(this.failedQuestions.length > 0){
             return ValidateReturn.FAIL;
         }
@@ -58,6 +65,18 @@ export class QuestionCollectionBasic implements QuestionCollection{
         }
     }
     
+    //validates the question collections list
+    ValidateNext(){
+        let validateValue = ValidateReturn.SUCCESS
+        this.questionCollections.forEach(questionCollection => {
+            let retval = questionCollection.Validate();
+            if (retval > validateValue){
+                validateValue = retval
+            }
+        })
+        return validateValue;
+    }
+
     AddQuestion(question: Question): void{
         this.unansweredQuestions.push(question);
     }
