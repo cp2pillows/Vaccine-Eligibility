@@ -1,4 +1,4 @@
 export class CreateUserDto
 {
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }
