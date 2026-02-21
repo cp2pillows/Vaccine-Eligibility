@@ -17,12 +17,14 @@ export class questionCollectionDependency implements QuestionCollection{
         return Math.max(this.mainQuestion.Validate(), this.dependency.Validate());
     }
     
-    AddQuestion (question: Question){
+    AddQuestion(question: Question): this{
         this.dependency.AddQuestion(question);
+        return this;
     }
 
-    AddQuestionCollection(questionCollection: QuestionCollection): void{
+    AddQuestionCollection(questionCollection: QuestionCollection): this{
         this.dependency.AddQuestionCollection(questionCollection);
+        return this;
     }
 
     UnsureQuestion(questionID: string): void{

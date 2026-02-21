@@ -77,12 +77,14 @@ export class QuestionCollectionBasic implements QuestionCollection{
         return validateValue;
     }
 
-    AddQuestion(question: Question): void{
+    AddQuestion(question: Question): this{
         this.unansweredQuestions.push(question);
+        return this;
     }
     
-    AddQuestionCollection(questionCollection: QuestionCollection): void{
+    AddQuestionCollection(questionCollection: QuestionCollection): this{
         this.questionCollections.push(questionCollection)
+        return this;
     }
 
     UnsureQuestion(questionID: string): void{

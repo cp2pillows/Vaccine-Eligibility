@@ -3,6 +3,7 @@ import { QuestionBasic } from "./QuestionBasic";
 import { QuestionCollection } from "./QuestionCollection";
 import { QuestionCollectionBasic } from "./QuestionCollectionBasic";
 import { questionCollectionDependency } from "./QuestionCollectionDepedency";
+import { QuestionCollectionGroup } from "./QuestionCollectionGroup";
 import { QuestionReturn } from "./QuestionReturn";
 import { ValidateReturn } from "./ValidateReturn";
 
@@ -191,12 +192,10 @@ describe('QuestionCollectionBasic', () =>{
 
 describe('QuestionCollectionDependency', () => {
     let stringID: string; 
-    let mainID: string; 
     let questionCollection: QuestionCollection;
     
     beforeEach(() =>{
         stringID = 'first';
-        mainID = 'woah';
         questionCollection = new questionCollectionDependency(new QuestionBasic(stringID, new AnswerBool(true)));
     })
 
@@ -288,5 +287,89 @@ describe('QuestionCollectionDependency', () => {
             expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
         })
         
+    })
+})
+
+describe('QuestionCollectionGroup', () => {
+    let stringID1: string; 
+    let stringID2: string; 
+    let stringID3: string; 
+    let questionCollection: QuestionCollection;
+    
+    beforeEach(() =>{
+        stringID1 = 'first';
+        stringID2 = 'second';
+        stringID3 = 'third';
+        questionCollection = new QuestionCollectionGroup()
+            .AddQuestion(new QuestionBasic(stringID1, new AnswerBool(true)))
+            .AddQuestion(new QuestionBasic(stringID2, new AnswerBool(true)))
+            .AddQuestion(new QuestionBasic(stringID3, new AnswerBool(true)));
+    })
+
+    describe('Validate', () => {
+        it('Should return NOT_ENOUGH_INFO if all quesitions are unanswered', async () => {
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+
+        it('Should return NOT_ENOUGH_INFO if one answer is a fail', async () => {
+            questionCollection.AnswerQuestion(stringID1, new AnswerBool(false));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+        
+        it('Should return NOT_ENOUGH_INFO if some answer are fail', async () => {
+            questionCollection.AnswerQuestion(stringID1, new AnswerBool(false));
+            questionCollection.AnswerQuestion(stringID2, new AnswerBool(false));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+
+        it('Should return FAIL if all answer are fail', async () => {
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.AnswerQuestion(stringID1, new AnswerBool(false));
+            questionCollection.AnswerQuestion(stringID2, new AnswerBool(false));
+            questionCollection.AnswerQuestion(stringID3, new AnswerBool(false));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
+        })
+
+        it('Should return SUCCESS if at least one answer is true', async () =>{
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.AnswerQuestion(stringID1, new AnswerBool(true));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+        })
+
+        it('Should return SUCCESS even if there is some false', async () =>{
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.AnswerQuestion(stringID1, new AnswerBool(true));
+            questionCollection.AnswerQuestion(stringID2, new AnswerBool(false));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+        })
+
+        it('Should return NOT_ENOUGH_INFO if one unsure and no true', async () =>{
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.UnsureQuestion(stringID1);
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+
+        it('Should return NOT_ENOUGH_INFO if one unsure one false', async () =>{
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.UnsureQuestion(stringID1);
+            questionCollection.AnswerQuestion(stringID2, new AnswerBool(false));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+        })
+
+        it('Should return SUCCESS if one unsure one true and one false', async () =>{
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.UnsureQuestion(stringID1);
+            questionCollection.AnswerQuestion(stringID2, new AnswerBool(false));
+            questionCollection.AnswerQuestion(stringID3, new AnswerBool(true));
+
+            expect(questionCollection.Validate()).toBe(ValidateReturn.SUCCESS);
+        })
     })
 })

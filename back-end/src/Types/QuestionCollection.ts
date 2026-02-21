@@ -4,8 +4,8 @@ import { ValidateReturn } from "./ValidateReturn"
 
 export interface QuestionCollection{
     Validate:() => ValidateReturn
-    AddQuestion:(question: Question) => void
-    AddQuestionCollection: (questionCollection: QuestionCollection) => void
+    AddQuestion:(question: Question) => this
+    AddQuestionCollection: (questionCollection: QuestionCollection) => this
     UnsureQuestion:(questionID: string) => void
     AnswerQuestion: (questionID: string, answer:Answer) => void
 }
