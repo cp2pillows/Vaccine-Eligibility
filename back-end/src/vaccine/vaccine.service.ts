@@ -7,7 +7,7 @@ import { VaccineCollection } from "src/Types/VaccineCollection";
 @Injectable()
 export class VacccineService {
 
-    vaccines: VaccineCollection = new VaccineCollection()
+    vaccines: VaccineCollection = new VaccineCollection();
     constructor(){
         this.reset();
     }
@@ -30,6 +30,7 @@ export class VacccineService {
     }
     
     reset(): void{
+        this.vaccines = new VaccineCollection();
         this.vaccines.AddVacine(new DTaP_IPV_Hib().Build())
     }
 }
