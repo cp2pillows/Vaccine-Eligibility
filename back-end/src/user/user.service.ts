@@ -13,7 +13,7 @@ export class UserService
     const user = <User>{
       id: UserService.idCounter++,
       dateOfBirth: dto.dateOfBirth,
-      ethnicity: dto.ethnicity,
+      age: (new Date()).getFullYear() - dto.dateOfBirth.getFullYear(),
     };
     this.users.push(user);
 
