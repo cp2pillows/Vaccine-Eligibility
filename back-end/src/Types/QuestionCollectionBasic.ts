@@ -66,5 +66,18 @@ export class QuestionCollectionBasic implements QuestionCollection{
         this.questionCollections.push(questionCollection)
     }
 
-    UnsureQuestion: (questionID: string, answer: Answer) => void
+    UnsureQuestion(questionID: string): void{
+        //fill up fail
+        let unsure:Question[] = []
+        this.unansweredQuestions.forEach(unansweredQuestion => {
+            if (unansweredQuestion.GetStringID() === questionID){
+                unsure.push(unansweredQuestion);
+            }
+        })
+
+        unsure.forEach(unsureQuestion => {
+            this.unsureQuestions.push(unsureQuestion);
+            this.unansweredQuestions = this.unansweredQuestions.filter(question => question != unsureQuestion);
+        });
+    }
 }

@@ -3,5 +3,6 @@ import { QuestionReturn } from "./QuestionReturn"
 
 export interface Question{
     AnswerQuestion: (questionID: string, answer:Answer) => QuestionReturn
+    GetStringID: () => string 
 }
 

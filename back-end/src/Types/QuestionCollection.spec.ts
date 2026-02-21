@@ -58,6 +58,14 @@ describe('QuestionCollection', () =>{
             questionCollection.AnswerQuestion(stringID, new AnswerBool(false));
             expect(questionCollection.Validate()).toBe(ValidateReturn.FAIL);
         })        
+
+        it('Should return GOOD_ENOUGH if there is a question that is unsure', async () => {
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            
+            expect(questionCollection.Validate()).toBe(ValidateReturn.NOT_ENOUGH_INFO);
+            questionCollection.UnsureQuestion(stringID);
+            expect(questionCollection.Validate()).toBe(ValidateReturn.GOOD_ENOUGH);
+        })        
     })
 
     describe('AnswerQuestion', () => {
@@ -73,5 +81,18 @@ describe('QuestionCollection', () =>{
             questionCollection.AnswerQuestion(stringID, new AnswerBool(true));
             expect(questionCollectionDeep.correctQuestions.length).toBe(1);
         })  
+    })
+
+    describe('UnsureQuestion', () => {
+        it('Should check if we are able to place question in unsure slots', async () =>{
+            questionCollection.AddQuestion(new QuestionBasic(stringID, new AnswerBool(true)));
+            
+            expect(questionCollection.unansweredQuestions.length).toBe(1);
+            expect(questionCollection.unsureQuestions.length).toBe(0);
+            questionCollection.UnsureQuestion(stringID);
+            expect(questionCollection.unansweredQuestions.length).toBe(0);
+            expect(questionCollection.unsureQuestions.length).toBe(1);
+        })
+        
     })
 })
