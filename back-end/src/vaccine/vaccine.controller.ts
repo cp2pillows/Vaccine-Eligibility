@@ -22,4 +22,10 @@ export class VacccineController {
         response.send();
         return this.vaccineService.answerQuestion(CreateVaccineAnswer);
     }
+
+    @Get("results")
+    GetResult()
+    {
+        return this.vaccineService.getVaccineStatus();
+    }
 }
