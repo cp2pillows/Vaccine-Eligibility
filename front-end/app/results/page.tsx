@@ -1,9 +1,11 @@
 'use client';
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
   const [results, setResults] = useState<string[]>([]);
+  const router = useRouter();
 
   async function getResults()
   {
@@ -27,6 +29,28 @@ export default function Home() {
         }
   }
 
+  async function reset()
+  {
+    try
+        {
+          const response = await fetch("http://localhost:3000/vaccine/reset", {
+              method: "Get"
+          });
+  
+          if (!response.ok)
+          {
+              throw new Error("Failed to submit");
+          }
+
+          setResults([]);
+          router.push("/");
+        }
+        catch(error) 
+        {
+        console.log(error);
+        }
+  }
+
   getResults();
 
   return (
@@ -36,9 +60,10 @@ export default function Home() {
       </h1>
        <main className="floating-card">
         <h1 className="text-3xl font-bold text-black">Results</h1>
-        <div className="w-full flex flex-col gap-4 mt-8">
-          
+        <div className="w-full flex flex-col gap-4 mt-8 font-bold text-black">
+          {results}
         </div>
+        <button onClick={() => reset()}>Reset</button>
       </main>
     </div>
   );

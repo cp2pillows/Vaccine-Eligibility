@@ -85,7 +85,7 @@ export default function Question() {
 
       <div className="form-card relative">
         <h1 className="text-3xl font-bold text-black absolute top-0 left-0 pl-6 pt-4">
-          Question 1
+          Question {inc}
         </h1>
 
         <p className="mt-4 text-lg text-black">
