@@ -67,13 +67,13 @@ export class VaccineCollection{
     Validate(): string[]{
         let vaccines:string[] = [];
         this.vaccinesEligible.forEach(vaccine => {
-            vaccine + ": Eligible"
+            vaccines.push(vaccine.getName() + ": Eligible")
         });
         this.vaccinesNotEligible.forEach(vaccine => {
-            vaccine + ": Not Eligible"
+            vaccines.push(vaccine.getName() + ": Not Eligible")
         });
         this.vaccinesNeedMoreInfo.forEach(vaccine => {
-            vaccine + ": " + vaccine.Validate().toString()
+            vaccines.push(vaccine.getName() + ": " + ValidateReturn[vaccine.Validate()])
         });
 
         return vaccines;

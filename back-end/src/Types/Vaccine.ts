@@ -4,7 +4,11 @@ import { QuestionCollection } from "./QuestionCollection";
 import { ValidateReturn } from "./ValidateReturn";
 
 export class Vaccine{
-    constructor(private readonly questions:QuestionCollection, name:string) {}
+    constructor(private readonly questions:QuestionCollection,private readonly name:string) {}
+
+    getName(): string{
+        return this.name;
+    }
 
     getQuestions(): Question[]{
         return this.questions.GetUnansweredQuestions();
