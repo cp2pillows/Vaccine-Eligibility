@@ -18,6 +18,7 @@ export default function Home() {
           <div className="w-full flex justify-center">
             <a
               type="button"
+              href="/questions"
               className="bubble-button"
             >
               Login

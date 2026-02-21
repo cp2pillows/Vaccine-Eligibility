@@ -30,7 +30,7 @@ body {
   font-weight: bold;
   margin-bottom: 1rem;
   display: inline-flex;
-  color: #9af843;
+  color: #67a32f;
 }
 
 .page-title {
@@ -97,3 +97,18 @@ body {
 }
 
 
+.form-card{
+  width: 100%;
+  max-width: 600px;
+  min-height: 500px;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: #ebebeb;
+  box-shadow: 0 20px 40px rgba(2,6,23,0.12), 0 6px 12px rgba(2,6,23,0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: center;
+}
